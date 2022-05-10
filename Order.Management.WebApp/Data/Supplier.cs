@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Order.Management.WebApp.Data
 {
     [Table("Suppliers")]
-    public class Supplier
+    public class Supplier : BaseEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Supplierid { get; set; }
         [Required]
         public string Name { get; set; }

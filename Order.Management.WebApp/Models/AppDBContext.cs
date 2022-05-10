@@ -15,10 +15,14 @@ namespace Order.Management.WebApp.Models
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Supplier>(entity =>
-            {
-            });
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<Supplier>().HasData(
+        new Supplier
+        {
+            
+            //Name = "William",
+            //LastName = "Shakespeare"
+        }
+    );
         }*/
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

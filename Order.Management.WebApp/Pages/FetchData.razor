@@ -42,11 +42,11 @@ else
 }
 
 @code {
-    private Supplier[] suppliers;
+    private List<Supplier> suppliers;
 
     protected override async Task OnInitializedAsync()
     {
         //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-        suppliers = await SupplierService.GetSupplierAsync(DateTime.Now);
+        suppliers = await SupplierService.GetAllSuppliersAsync();
     }
 }
