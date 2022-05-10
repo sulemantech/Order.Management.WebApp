@@ -1,0 +1,52 @@
+﻿@page "/fetchdata"
+
+@using Order.Management.WebApp.Data
+@inject SupplierService SupplierService
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (suppliers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>AddressLine1</th>
+                <th>AddressLine</th>
+                <th>City</th>
+                <th>PostalCode</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var supplier in suppliers)
+            {
+                <tr>
+                    <td>@supplier.Name</td>
+                    <td>@supplier.AddressLine1</td>
+                    <td>@supplier.AddressLine</td>
+                    <td>@supplier.City</td>
+                    <td>@supplier.PostalCode</td>
+                    <td>@supplier.State</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Supplier[] suppliers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        suppliers = await SupplierService.GetSupplierAsync(DateTime.Now);
+    }
+}
