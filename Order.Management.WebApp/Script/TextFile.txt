@@ -1,0 +1,103 @@
+﻿INSERT into [dbo].[States](Name,AddedDate,UpdatedDate)values
+( 'Alaska',GETDATE(), GETDATE()),
+( 'Alabama',GETDATE(), GETDATE()),
+( 'Arizona',GETDATE(), GETDATE()),
+( 'Arkansas',GETDATE(), GETDATE()),
+( 'California',GETDATE(), GETDATE()),
+( 'Colorado',GETDATE(), GETDATE()),
+( 'Connecticut',GETDATE(), GETDATE()),
+( 'Delaware',GETDATE(), GETDATE()),
+( 'District of Columbia',GETDATE(), GETDATE()),
+( 'Florida',GETDATE(), GETDATE()),
+( 'Georgia',GETDATE(), GETDATE()),
+( 'Hawaii',GETDATE(), GETDATE()),
+( 'Idaho',GETDATE(), GETDATE()),
+( 'Illinois',GETDATE(), GETDATE()),
+( 'Indiana',GETDATE(), GETDATE()),
+( 'Iowa',GETDATE(), GETDATE()),
+( 'Kansas',GETDATE(), GETDATE()),
+( 'Kentucky',GETDATE(), GETDATE()),
+( 'Louisiana',GETDATE(), GETDATE()),
+( 'Maine',GETDATE(), GETDATE()),
+( 'Maryland',GETDATE(), GETDATE()),
+( 'Massachusetts',GETDATE(), GETDATE()),
+( 'Michigan',GETDATE(), GETDATE()),
+( 'Minnesota',GETDATE(), GETDATE()),
+( 'Mississippi',GETDATE(), GETDATE()),
+( 'Missouri',GETDATE(), GETDATE()),
+( 'Montana',GETDATE(), GETDATE()),
+( 'Nebraska',GETDATE(), GETDATE()),
+( 'Nevada',GETDATE(), GETDATE()),
+( 'New Hampshire',GETDATE(), GETDATE()),
+( 'New Jersey',GETDATE(), GETDATE()),
+( 'New Mexico',GETDATE(), GETDATE()),
+( 'New York',GETDATE(), GETDATE()),
+( 'North Carolina',GETDATE(), GETDATE()),
+( 'North Dakota',GETDATE(), GETDATE()),
+( 'Ohio',GETDATE(), GETDATE()),
+( 'Oklahoma',GETDATE(), GETDATE()),
+( 'Oregon',GETDATE(), GETDATE()),
+( 'Pennsylvania',GETDATE(), GETDATE()),
+( 'Puerto Rico',GETDATE(), GETDATE()),
+( 'Rhode Island',GETDATE(), GETDATE()),
+( 'South Carolina',GETDATE(), GETDATE()),
+( 'South Dakota',GETDATE(), GETDATE()),
+( 'Tennessee',GETDATE(), GETDATE()),
+( 'Texas',GETDATE(), GETDATE()),
+( 'Utah',GETDATE(), GETDATE()),
+( 'Vermont',GETDATE(), GETDATE()),
+( 'Virginia',GETDATE(), GETDATE()),
+( 'Washington',GETDATE(), GETDATE()),
+( 'West Virginia',GETDATE(), GETDATE()),
+( 'Wisconsin',GETDATE(), GETDATE()),
+( 'Wyoming',GETDATE(), GETDATE())
+
+INSERT INTO [Suppliers] 
+	([Name]
+	 ,[AddressLine1]
+	 ,[AddressLine]
+      ,[City]
+      ,[PostalCode]
+      ,[State]
+      ,[AddedDate]
+      ,[UpdatedDate]
+	  ,Id)
+VALUES 
+	('CHIN YEN', '554 Reid', 'Suite 430','Reynoldsstad', '75000', 'Louisiana',GETDATE(), GETDATE(),1),
+	('MIKE PEARL',  '555 Reid','Radial Suite 430', 'Reynoldsstad','75000', 'Louisiana', GETDATE(),GETDATE(),2),
+	('GREEN FIELD', 'Radial Suite 430','Radial Suite 430', 'Houston', '75000', 'Texas', GETDATE(),GETDATE(),3),
+	('DEWANE PAUL', 'Suite 430','Radial Suite 430', 'Houston', '75000', 'Texas', GETDATE(),GETDATE(),4),
+	('MATTS', 'Suite 430','Radial Suite 430', 'Boston', '75000', 'Texas', GETDATE(),GETDATE(),5),
+	('PLANK OTO', 'Suite 430','Radial Suite 430', 'New York', '75000', 'Texas', GETDATE(),GETDATE(),6)
+
+	
+CREATE TABLE [States] (
+    [Id] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [AddedDate] datetime2 NOT NULL,
+    [UpdatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_States] PRIMARY KEY ([Id])
+);
+GO
+
+CREATE TABLE [Suppliers] (
+    [Supplierid] int NOT NULL IDENTITY,
+    [Name] nvarchar(max) NOT NULL,
+    [AddressLine1] nvarchar(max) NOT NULL,
+    [AddressLine] nvarchar(max) NOT NULL,
+    [City] nvarchar(max) NOT NULL,
+    [PostalCode] nvarchar(max) NOT NULL,
+    [StateId] int NOT NULL,
+    [AddedDate] datetime2 NOT NULL,
+    [UpdatedDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Suppliers] PRIMARY KEY ([Supplierid]),
+    CONSTRAINT [FK_Suppliers_States_StateId] FOREIGN KEY ([StateId]) REFERENCES [States] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Suppliers_States_StateId1] FOREIGN KEY ([StateId1]) REFERENCES [States] ([Id]) ON DELETE NO ACTION
+);
+GO
+
+CREATE UNIQUE INDEX [IX_Suppliers_StateId] ON [Suppliers] ([StateId]);
+GO
+
+CREATE INDEX [IX_Suppliers_StateId1] ON [Suppliers] ([StateId1]);
+GO

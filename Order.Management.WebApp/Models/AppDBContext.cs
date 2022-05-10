@@ -12,18 +12,13 @@ namespace Order.Management.WebApp.Models
             : base(options)
         {
         }
-        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Supplier>().HasData(
-        new Supplier
-        {
-            
-            //Name = "William",
-            //LastName = "Shakespeare"
+            modelBuilder.Entity<Supplier>().HasOne<State>().WithOne().HasForeignKey<Supplier>(x => x.StateId);
         }
-    );
-        }*/
+        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
+        public virtual DbSet<State> States { get; set; } = null!;
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

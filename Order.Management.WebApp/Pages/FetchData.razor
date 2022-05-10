@@ -1,9 +1,16 @@
 ﻿@page "/fetchdata"
 
-@using Order.Management.WebApp.Data
-@inject SupplierService SupplierService
 
-<h1>Weather forecast</h1>
+@using Order.Management.WebApp.Data
+@inject ISupplierService SupplierService
+
+
+<NavLink class="nav-link" href="Add">
+    <span class="oi oi-plus" aria-hidden="true">Add New</span>
+
+</NavLink>
+
+<h1>Supplier</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
@@ -18,10 +25,11 @@ else
             <tr>
                 <th>Name</th>
                 <th>AddressLine1</th>
-                <th>AddressLine</th>
+                 <th>AddressLine</th>
                 <th>City</th>
                 <th>PostalCode</th>
                 <th>State</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -33,8 +41,15 @@ else
                     <td>@supplier.AddressLine</td>
                     <td>@supplier.City</td>
                     <td>@supplier.PostalCode</td>
-                    <td>@supplier.State</td>
-
+                    <td>@supplier.StateId</td>
+                     <td>
+                    <a class="nav-link" href="Edit/@supplier.Supplierid">
+                        <span class="oi oi-pencil" aria-hidden="true">Edit</span>
+                    </a>
+                    <a class="nav-link" href="Delete/@supplier.Supplierid">
+                        <span class="oi oi-trash" aria-hidden="true">Delete</span>
+                    </a>
+                </td>
                 </tr>
             }
         </tbody>

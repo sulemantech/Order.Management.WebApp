@@ -19,6 +19,28 @@ namespace Order.Management.WebApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("Order.Management.WebApp.Data.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+                });
+
             modelBuilder.Entity("Order.Management.WebApp.Data.Supplier", b =>
                 {
                     b.Property<int>("Supplierid")
@@ -30,33 +52,57 @@ namespace Order.Management.WebApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("AddressLine")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AddressLine1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StateId1")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Supplierid");
 
+                    b.HasIndex("StateId")
+                        .IsUnique();
+
+                    b.HasIndex("StateId1");
+
                     b.ToTable("Suppliers");
+                });
+
+            modelBuilder.Entity("Order.Management.WebApp.Data.Supplier", b =>
+                {
+                    b.HasOne("Order.Management.WebApp.Data.State", null)
+                        .WithOne()
+                        .HasForeignKey("Order.Management.WebApp.Data.Supplier", "StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Order.Management.WebApp.Data.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId1");
+
+                    b.Navigation("State");
                 });
 #pragma warning restore 612, 618
         }

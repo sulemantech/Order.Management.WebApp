@@ -1,0 +1,65 @@
+﻿@page "/Delete/{Id}"
+
+@using Order.Management.WebApp.Data
+@inject ISupplierService SupplierService
+
+@inject NavigationManager NavigationManager
+
+
+<h2>Delete Supplier</h2>
+<hr />
+<h3>Are you sure want to delete this?</h3>
+<form>
+    <div class="row">
+        <div class=" col-md-8">
+            <div class="form-group">
+                <label>Supplier Id:</label>
+                <label>@obj.Supplierid</label>
+            </div>
+            <div class="form-group">
+                <label>Supplier Name:</label>
+                <label>@obj.Name</label>
+            </div>
+            <div class="form-group">
+                <label>Desigation:</label>
+                <label>@obj.AddressLine1</label>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <label>@obj.AddressLine</label>
+            </div>
+            <div class="form-group">
+                <label>City:</label>
+                <label>@obj.City</label>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <!--<input type="button" class="btn btn-danger" @onclick="@DeleteSupplier" value="Delete" />-->
+                <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    Supplier obj = new Supplier();
+    protected override async Task OnInitializedAsync()
+    {
+        obj = await Task.Run(() => SupplierService.GetSupplierAsync(Convert.ToInt32(Id)));
+    }
+    /*protected async void DeleteSupplier()
+    {
+        await SupplierService.DeleteSupplierAsync(obj);
+        NavigationManager.NavigateTo("Suppliers");
+    }*/
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Suppliers");
+    }
+}

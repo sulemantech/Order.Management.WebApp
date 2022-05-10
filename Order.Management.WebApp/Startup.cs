@@ -33,9 +33,9 @@ namespace Order.Management.WebApp
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
-            services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
-
+            services.AddScoped<ISupplierService, SupplierService>();
+           
             #region Connection String
             services.AddDbContext<AppDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             #endregion
