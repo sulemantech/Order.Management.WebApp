@@ -19,23 +19,27 @@
                 <label for="Name" class="control-label">Name</label>
                 <input form="Name" class="form-control" @bind="@obj.Name" />
             </div>
-            <!--<div class="form-group">
-                <label for="Gender" class="control-label"></label>
-                <select @bind="@obj.State" class="form-control">
-                    <option value="">-Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>-->
             <div class="form-group">
-                <label for="Designation" class="control-label">Designation</label>
-                <input form="Designation" class="form-control" @bind="@obj.AddressLine1" />
+                <label for="Name" class="control-label">Address Line 1</label>
+                <input form="Name" class="form-control" @bind="@obj.AddressLine1" />
             </div>
             <div class="form-group">
-                <label for="City" class="control-label">City</label>
-                <input form="City" class="form-control" @bind="@obj.City" />
+                <label for="Name" class="control-label">Address Line 1</label>
+                <input form="Name" class="form-control" @bind="@obj.AddressLine" />
             </div>
-
+             <div class="form-group">
+                <label for="Name" class="control-label">City</label>
+                <input form="Name" class="form-control" @bind="@obj.City" />
+            </div>
+             <div class="form-group">
+                <label for="Name" class="control-label">State</label>
+                <input form="Name" class="form-control" @bind="@obj.StateId" />
+            </div>
+             <div class="form-group">
+                <label for="Name" class="control-label">Postal Code</label>
+                <input form="Name" class="form-control" @bind="@obj.PostalCode" />
+            </div>
+           
         </div>
     </div>
 
@@ -60,10 +64,10 @@
     protected async void UpdateSupplier()
     {
         await SupplierService.UpdateSupplierAsync(obj);
-        NavigationManager.NavigateTo("Suppliers");
+        NavigationManager.NavigateTo("/");
     }
     void Cancel()
     {
-        NavigationManager.NavigateTo("Suppliers");
+        NavigationManager.NavigateTo("/");
     }
 }
