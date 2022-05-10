@@ -35,7 +35,10 @@ namespace Order.Management.WebApp
 
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<ISupplierService, SupplierService>();
-           
+
+            services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IStateService, StateService>();
+
             #region Connection String
             services.AddDbContext<AppDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             #endregion

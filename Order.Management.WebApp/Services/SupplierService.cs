@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Order.Management.WebApp.Models;
+using Order.Management.WebApp.RequestFeatures;
 using Order.Management.WebApp.Respository;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,17 @@ namespace Order.Management.WebApp.Data
             return await _supplierRepository.GetSupplierAsync(Id);
         }
         #endregion
+        public async Task<List<Supplier>> GetAllSuppliersAsync(SupplierParameters _supplierParameters)
+        {
+            var suppliers =  await _supplierRepository.GetAllSuppliersAsync();
+
+            if (string.IsNullOrWhiteSpace(_supplierParameters.SearchTerm))
+                return suppliers;
+
+            var lowerCaseSearchTerm = _supplierParameters.SearchTerm.Trim().ToLower();
+
+            return suppliers.Where(p => p.Name.ToLower().Contains(lowerCaseSearchTerm)).ToList();
+        }
 
         #region Update Supplier
         public async Task<bool> UpdateSupplierAsync(Supplier supplier)

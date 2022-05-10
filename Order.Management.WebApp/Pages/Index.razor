@@ -1,14 +1,26 @@
 ﻿@page "/"
 
 
+@using Order.Management.WebApp.Components
 @using Order.Management.WebApp.Data
+@using Order.Management.WebApp.RequestFeatures
 @inject ISupplierService SupplierService
 
-
+<div class="row">
+<div class="col-md-10">
+       <section style="margin-bottom: 10px">
+    <input type="text" class="form-control" placeholder="Search by supplier name" 
+           @bind-value="@SearchTerm" @onkeyup="SearchChanged" />
+</section>
+</div>
+    <div class="col-md-2">
 <NavLink class="nav-link" href="Add">
+    
     <span class="oi oi-plus" aria-hidden="true">Add New</span>
 
 </NavLink>
+</div>
+</div>
 
 <h1>Suppliers</h1>
 
@@ -28,7 +40,6 @@ else
                  <th>AddressLine</th>
                 <th>City</th>
                 <th>PostalCode</th>
-                <th>State</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -41,7 +52,6 @@ else
                     <td>@supplier.AddressLine</td>
                     <td>@supplier.City</td>
                     <td>@supplier.PostalCode</td>
-                    <td>@supplier.StateId</td>
                      <td>
                     <a class="nav-link" href="Edit/@supplier.Supplierid">
                         <span class="oi oi-pencil" aria-hidden="true">Edit</span>
@@ -57,11 +67,33 @@ else
 }
 
 @code {
+    public string SearchTerm { get; set; }
+
     private List<Supplier> suppliers;
+
+    private SupplierParameters _supplierParameters = new SupplierParameters();
+    public MetaData MetaData { get; set; } = new MetaData();
+
 
     protected override async Task OnInitializedAsync()
     {
         //forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
         suppliers = await SupplierService.GetAllSuppliersAsync();
+    }
+
+    private async Task GetSuppliers()
+    {
+        suppliers = await SupplierService.GetAllSuppliersAsync(_supplierParameters);
+        //suppliers = pagingResponse.Items;
+        //MetaData = pagingResponse.MetaData;
+    }
+
+    private async Task SearchChanged()
+    {
+        
+        Console.WriteLine(SearchTerm);
+            _supplierParameters.PageNumber = 1;
+            _supplierParameters.SearchTerm = SearchTerm;
+            await GetSuppliers();
     }
 }

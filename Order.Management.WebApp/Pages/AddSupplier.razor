@@ -3,6 +3,7 @@
 
 @using Order.Management.WebApp.Data
 @inject ISupplierService SupplierService
+@inject IStateService StateService
 
 @inject NavigationManager NavigationManager
 
@@ -11,33 +12,48 @@
 
 <EditForm Model="@obj" OnValidSubmit="@CreateSupplier">
      <DataAnnotationsValidator />
-    <ValidationSummary />
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
                 <label for="Name" class="control-label" required>Name</label>
                 <input form="Name" class="form-control" @bind="@obj.Name" />
+                 <ValidationMessage For="@(()=> obj.Name)" />
             </div>
          
             <div class="form-group">
-                <label for="Designation" class="control-label">Address Line 1</label>
-                <input form="Designation" class="form-control" @bind="@obj.AddressLine1" />
+                <label for="AddressLine1" class="control-label">Address Line 1</label>
+                <input form="AddressLine1" class="form-control" @bind="@obj.AddressLine1" />
+                <ValidationMessage For="@(()=> obj.AddressLine1)" />
             </div>
              <div class="form-group">
-                <label for="Designation" class="control-label">Address Line 2</label>
-                <input form="Designation" class="form-control" @bind="@obj.AddressLine" />
+                <label for="AddressLine" class="control-label">Address Line 2</label>
+                <input form="AddressLine" class="form-control" @bind="@obj.AddressLine" />
+                <ValidationMessage For="@(()=> obj.AddressLine)" />
+
             </div>
             <div class="form-group">
                 <label for="City" class="control-label">City</label>
                 <input form="City" class="form-control" @bind="@obj.City" />
+                <ValidationMessage For="@(()=> obj.City)" />
+
             </div>
              <div class="form-group">
                 <label for="City" class="control-label">State</label>
-                <input form="City" class="form-control" @bind="@obj.StateId" />
+                 <select class="form-control" @bind="@obj.StateId">  
+                <option value="">Select State</option>  
+                @foreach (var state in stateList)  
+                {  
+                    <option value="@state.Id">@state.Name</option>  
+                }  
+            </select>  
+            <ValidationMessage For="@(()=> obj.StateId)" />
             </div>
+
             <div class="form-group">
-                <label for="City" class="control-label">Postal Code</label>
-                <input form="City" class="form-control" @bind="@obj.PostalCode" />
+                <label for="PostalCode" class="control-label">Postal Code</label>
+                <input form="PostalCode" class="form-control" @bind="@obj.PostalCode" />
+                <ValidationMessage For="@(()=> obj.PostalCode)" />
+
             </div>
 
         </div>
@@ -46,7 +62,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="button" class="btn btn-primary" @onclick="@CreateSupplier" value="Save"/>
+                <input type="submit" class="btn btn-primary" @onclick="@CreateSupplier" value="Save"/>
                 <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel"/>
             </div>
         </div>
@@ -55,8 +71,17 @@
 
 @code {
     Supplier obj = new Supplier();
+    List<State> stateList = new List<State>();
+    protected override async Task OnInitializedAsync()  
+    {  
+        stateList = await StateService.GetAllStatesAsync();  
+    }  
     protected async void CreateSupplier()
     {
+        if (string.IsNullOrWhiteSpace(obj.Name) || string.IsNullOrWhiteSpace(obj.City)
+        || string.IsNullOrWhiteSpace(obj.AddressLine1)
+        || string.IsNullOrWhiteSpace(obj.AddressLine) || string.IsNullOrWhiteSpace(obj.AddressLine) || obj.StateId <= 0)
+            return;
         await SupplierService.InsertSupplierAsync(obj);
         NavigationManager.NavigateTo("/");
     }

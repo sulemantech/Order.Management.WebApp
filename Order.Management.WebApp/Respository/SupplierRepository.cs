@@ -23,14 +23,14 @@ namespace Order.Management.WebApp.Respository
         #region Get List of Suppliers
         public async Task<List<Supplier>> GetAllSuppliersAsync()
         {
-            return await _appDBContext.Suppliers.ToListAsync();
+            return await _appDBContext.Suppliers.Include(x=>x.State).ToListAsync();
         }
         #endregion
 
         #region Insert Supplier
         public async Task<bool> InsertSupplierAsync(Supplier supplier)
         {
-            await _appDBContext.Suppliers.AddAsync(supplier);
+            await _appDBContext.Suppliers.AddAsync(supplier);   
             await _appDBContext.SaveChangesAsync();
             return true;
         }

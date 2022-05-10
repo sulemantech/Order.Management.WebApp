@@ -3,7 +3,7 @@
 
 @using Order.Management.WebApp.Data
 @inject ISupplierService SupplierService
-
+@inject IStateService StateService
 @inject NavigationManager NavigationManager
 
 <h2>Edit Supplier</h2>
@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label for="Name" class="control-label">Name</label>
-                <input form="Name" class="form-control" @bind="@obj.Name" />
+                <InputText form="Name" class="form-control" @bind="@obj.Name" />
             </div>
             <div class="form-group">
                 <label for="Name" class="control-label">Address Line 1</label>
@@ -33,7 +33,13 @@
             </div>
              <div class="form-group">
                 <label for="Name" class="control-label">State</label>
-                <input form="Name" class="form-control" @bind="@obj.StateId" />
+                 <select class="form-control" @bind="@obj.StateId">  
+                <option value="">Select State</option>  
+                @foreach (var state in stateList)  
+                {  
+                    <option value="@state.Id">@state.Name</option>  
+                }  
+            </select>  
             </div>
              <div class="form-group">
                 <label for="Name" class="control-label">Postal Code</label>
@@ -57,9 +63,12 @@
     [Parameter]
     public string Id { get; set; }
     Supplier obj = new Supplier();
+     List<State> stateList = new List<State>();
     protected override async Task OnInitializedAsync()
     {
+          
         obj = await Task.Run(() => SupplierService.GetSupplierAsync(Convert.ToInt32(Id)));
+        stateList = await StateService.GetAllStatesAsync();
     }
     protected async void UpdateSupplier()
     {
